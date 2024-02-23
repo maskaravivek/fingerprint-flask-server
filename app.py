@@ -17,7 +17,7 @@ min_confidence = 0.5
 max_request_lifespan = 60 * 5 # 5 minutes
 
 # init the server API SDK
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="<YOUR_SERVER_API_KEY>")
+configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="bWE4lFPnSw0agkH9wL2X")
 api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
 
 @app.route('/')
