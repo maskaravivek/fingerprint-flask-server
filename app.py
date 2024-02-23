@@ -87,7 +87,7 @@ def register():
         else:
             return jsonify({'message': 'Invalid request', 'status': 400})
     except Exception as e:
-        return jsonify({'message': "Error occurred in registering the user", 'status': 400})
+        return jsonify({'message': str(e), 'status': 400})
 
 def validate_fingerprint(visitor_id, request_id):
     if request_id:
