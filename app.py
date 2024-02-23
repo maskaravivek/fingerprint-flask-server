@@ -14,7 +14,7 @@ DATABASE = 'database.db'
 
 # init variables and SDK after the import statements in the forms.py file
 min_confidence = 0.5
-max_request_lifespan = 60 * 5 # 5 minutes
+max_request_lifespan = 60 * 1 # 5 minutes
 
 # init the server API SDK
 configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SUmn3f35FIfY10KKKaXo")
