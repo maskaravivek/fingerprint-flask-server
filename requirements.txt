@@ -1,3 +1,4 @@
 Flask
 argon2-cffi
 gunicorn
+fingerprint_pro_server_api_sdk
