@@ -83,7 +83,7 @@ def register():
                 cur.execute('INSERT INTO users (username, password, full_name, visitor_id) VALUES (?, ?, ?, ?)', (username, hashed_password, full_name, visitor_id))
                 get_db().commit()
                 
-                return jsonify({'message': 'User registered successfully'})
+                return jsonify({'message': 'User registered successfully', 'status': 200})
         else:
             return jsonify({'message': 'Invalid request', 'status': 400})
     except Exception as e:
