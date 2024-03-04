@@ -3,8 +3,7 @@ import sqlite3
 import argon2
 
 import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk import EventResponse
-from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+from fingerprint_pro_server_api_sdk.rest import ApiException
 import time
 
 app = Flask(__name__)
@@ -14,10 +13,10 @@ DATABASE = 'database.db'
 
 # init variables and SDK after the import statements in the forms.py file
 min_confidence = 0.5
-max_request_lifespan = 60 * 1 # 5 minutes
+max_request_lifespan = 60 * 5 # 5 minutes
 
 # init the server API SDK
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SUmn3f35FIfY10KKKaXo")
+configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="60w8R9Dw56o7TYGeRaur")
 api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
 
 @app.route('/')
@@ -131,4 +130,5 @@ def validate_fingerprint(visitor_id, request_id):
     return True
 
 if __name__ == '__main__':
-    app.run()
+    port = 5001
+    app.run(port=port)
