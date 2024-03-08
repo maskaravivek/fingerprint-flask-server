@@ -80,7 +80,7 @@ def register():
                 return jsonify({'message': 'Username already exists', 'status': 400})
             
             if validate_fingerprint(visitor_id=visitor_id, request_id=request_id):
-                cur.execute('INSERT INTO users (username, password, full_name, visitor_id, created_at) VALUES (?, ?, ?, ?)', (username, hashed_password, full_name, visitor_id, time.strftime('%Y-%m-%d %H:%M:%S')))
+                cur.execute('INSERT INTO users (username, password, full_name, visitor_id) VALUES (?, ?, ?, ?)', (username, hashed_password, full_name, visitor_id))
                 get_db().commit()
                 
                 return jsonify({'message': 'User registered successfully', 'status': 200})
