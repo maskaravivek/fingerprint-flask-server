@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS users (
     username TEXT NOT NULL,
     password TEXT NOT NULL,
     full_name TEXT NOT NULL,
-    visitor_id TEXT NOT NULL
+    visitor_id TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 ''')
 

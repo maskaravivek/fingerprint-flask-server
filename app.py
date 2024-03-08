@@ -14,6 +14,7 @@ DATABASE = 'database.db'
 # init variables and SDK after the import statements in the forms.py file
 min_confidence = 0.5
 max_request_lifespan = 60 * 5 # 5 minutes
+visitor_id_rate_limit = 5
 
 # init the server API SDK
 configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="60w8R9Dw56o7TYGeRaur")
@@ -79,7 +80,7 @@ def register():
                 return jsonify({'message': 'Username already exists', 'status': 400})
             
             if validate_fingerprint(visitor_id=visitor_id, request_id=request_id):
-                cur.execute('INSERT INTO users (username, password, full_name, visitor_id) VALUES (?, ?, ?, ?)', (username, hashed_password, full_name, visitor_id))
+                cur.execute('INSERT INTO users (username, password, full_name, visitor_id, created_at) VALUES (?, ?, ?, ?)', (username, hashed_password, full_name, visitor_id, time.strftime('%Y-%m-%d %H:%M:%S')))
                 get_db().commit()
                 
                 return jsonify({'message': 'User registered successfully', 'status': 200})
@@ -120,12 +121,11 @@ def validate_fingerprint(visitor_id, request_id):
         # Check if a user with the same fingerprint already exists
         
         cur = get_db().cursor()
-        # check if visitor_id exists 
-        cur.execute('SELECT * FROM users WHERE visitor_id = ?', (visitor_id,))
-        user = cur.fetchone()
+        # check the number of times the visitor_id appears in the database in the last 1 hour
+        visitor_id_count = cur.execute('SELECT COUNT(*) FROM users WHERE visitor_id = ? AND created_at > datetime("now", "-1 hour")', (visitor_id,)).fetchone()[0]
         
-        if user:
-            raise Exception('Another user with the same fingerprint already exists.')
+        if visitor_id_count > visitor_id_rate_limit:
+            raise Exception('Fingerprint rate limit exceeded.')
     
     return True
 
