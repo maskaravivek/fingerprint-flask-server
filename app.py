@@ -11,7 +11,7 @@ ph = argon2.PasswordHasher()
 
 DATABASE = 'database.db'
 
-# init variables and SDK after the import statements in the forms.py file
+# init variables and SDK after the import statements in the app.py file
 min_confidence = 0.5
 max_request_lifespan = 60 * 5 # 5 minutes
 visitor_id_rate_limit = 5
@@ -118,8 +118,7 @@ def validate_fingerprint(visitor_id, request_id):
             raise Exception('Invalid fingerprint.')
     
     if visitor_id:
-        # Check if a user with the same fingerprint already exists
-        
+        # check the rate limit
         cur = get_db().cursor()
         # check the number of times the visitor_id appears in the database in the last 1 hour
         visitor_id_count = cur.execute('SELECT COUNT(*) FROM users WHERE visitor_id = ? AND created_at > datetime("now", "-1 hour")', (visitor_id,)).fetchone()[0]
