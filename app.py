@@ -80,6 +80,7 @@ def register():
                 return jsonify({'message': 'Username already exists', 'status': 400})
             
             if validate_fingerprint(visitor_id=visitor_id, request_id=request_id):
+                # Disclaimer: This is a simple example. For production, you should use an ORM or stronger input validation practices 
                 cur.execute('INSERT INTO users (username, password, full_name, visitor_id) VALUES (?, ?, ?, ?)', (username, hashed_password, full_name, visitor_id))
                 get_db().commit()
                 
@@ -123,7 +124,7 @@ def validate_fingerprint(visitor_id, request_id):
         # check the number of times the visitor_id appears in the database in the last 1 hour
         visitor_id_count = cur.execute('SELECT COUNT(*) FROM users WHERE visitor_id = ? AND created_at > datetime("now", "-1 hour")', (visitor_id,)).fetchone()[0]
         
-        if visitor_id_count > visitor_id_rate_limit:
+        if visitor_id_count >= visitor_id_rate_limit:
             raise Exception('Fingerprint rate limit exceeded.')
     
     return True
